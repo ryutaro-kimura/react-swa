@@ -1,5 +1,6 @@
 import React from 'react';
 import axios, { AxiosResponse } from 'axios';
+import generateTableSasSample from '../src/lib/generateTableSAS'
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
     .then(response => {
       // handle success
       setResponse(response);
+      
       console.log("res",response);
     })
     .catch(error => {
@@ -25,7 +27,10 @@ function App() {
     <React.Fragment>
       {response?.data.map((elm:any, index:number) => {
         return (
-          <div key={index}>id: {elm.id}, name: {elm.name}</div>
+          <>
+            <div key={index}>id: {elm.id}, name: {elm.name}</div>
+            <p>{process.env.REACT_APP_HELLO_WORLD}</p>
+          </>
         )
       })}
     </React.Fragment>
