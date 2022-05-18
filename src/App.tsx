@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios, { AxiosResponse } from 'axios';
 
 function App() {
+
+  const [response, setResponse] = React.useState<AxiosResponse>();
+
+  React.useEffect(() => {
+    axios.get('/api/HttpTrigger1')
+    .then(response => {
+      // handle success
+      setResponse(response);
+      console.log("res",response);
+    })
+    .catch(error => {
+      // handle error
+      console.log(error);
+    })
+    .then(() => {
+      // always executed
+    });
+    }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      {response?.data.map((elm:any, index:number) => {
+        return (
+          <div key={index}>id: {elm.id}, name: {elm.name}</div>
+        )
+      })}
+    </React.Fragment>
   );
 }
 
